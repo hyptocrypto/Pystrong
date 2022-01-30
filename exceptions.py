@@ -1,5 +1,8 @@
-from telnetlib import EC
+class InitError(Exception):
+    pass
 
+class BadTypeError(Exception):
+    pass 
 
 class EnforceredTypeError(Exception):
     pass
