@@ -1,6 +1,6 @@
 from typing import List, Dict,Tuple,Type, Any
 from exceptions import EnforceredTypeError, AttributeTypeNotSet, BadTypeError, InitError
-from constants import ATTR_TYPE
+from constants import TYPE_ATTR_FORMAT
 
 class InferredTypeEnforcer:
     """
@@ -19,13 +19,13 @@ class InferredTypeEnforcer:
         if args and not kwargs:
             raise InitError(f"Args {args} must be passed to super().__init__ as kwargs i.e. key value pairs.")
         for attr_name, value in kwargs.items():
-            self.__dict__.update({ATTR_TYPE.format(attr_name): type(value)})
+            self.__dict__.update({TYPE_ATTR_FORMAT.format(attr_name): type(value)})
 
     def __setattr__(self, key: str, value: Any) -> None:
-        if not self.__dict__.get(ATTR_TYPE.format(key)):
+        if not self.__dict__.get(TYPE_ATTR_FORMAT.format(key)):
             raise AttributeTypeNotSet(f"No type for attr '{key}' set. This is most likely due to not calling super in the derived class constructor.")
         
-        if type(value) is not getattr(self, ATTR_TYPE.format(key)):
+        if type(value) is not getattr(self, TYPE_ATTR_FORMAT.format(key)):
             raise EnforceredTypeError(f"Cant not set type: {type(value)} for attribute '{key}'")
         super().__setattr__(key, value)
         
@@ -46,10 +46,10 @@ class ExplicitTypeEnforcer:
         for attr_name, _type in kwargs.items():
             if not isinstance(type(_type), type):
                 raise BadTypeError("Key word arguments must be in (attr_name, type) format. Ensure 'type' is a valid python type.")
-            self.__dict__.update({ATTR_TYPE.format(attr_name): _type})
+            self.__dict__.update({TYPE_ATTR_FORMAT.format(attr_name): _type})
             
     def __setattr__(self, key: str, value: Any) -> None:
-        if not self.__dict__.get(ATTR_TYPE.format(key)):
+        if not self.__dict__.get(TYPE_ATTR_FORMAT.format(key)):
             raise AttributeTypeNotSet(f"No type for attr '{key}' set. This is most likely due to not calling super in the derived class constructor.")
         
         if type(value) is not getattr(self, f"___{key}_type"):

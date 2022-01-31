@@ -17,9 +17,9 @@ p.name = 55
 
 EnforcedTypeError: Cant not set type: <class 'int'> for attribute 'name'
 ```
-EnforcedTypeError thrown because the value of the name attribute or a Person object must always be a string.
+EnforcedTypeError is thrown because the value of the name attribute on a Person object must always be a string.
 
-When creating the class Person, the first thing the constructor should do is call base class constructor passing the all attributes with their intended value as key value pairs. Thereafter, the object should behave as normal. 
+When creating the class Person, the first thing the constructor must do is call base classes constructor passing the all attributes with their intended value as key value pairs. Thereafter, the object should behave as normal. 
 
 
 ## Contributing
