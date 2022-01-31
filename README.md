@@ -1,10 +1,10 @@
 # Pystrong. Type enforcement for python objects
 
 ## Usage
-Use the ExplicitTypeEnforcer class as a base class for your derived, and the types you set for the attributes will be enforced throughout the life of the object.
+Use the ExplicitTypeEnforcer class as a base class and the types you set for the attributes in your derived classes will be enforced throughout the life of the object.
 
 ```python
-from pystrong import ExplicitTypeEnforcer
+from pystrong.enforcer import ExplicitTypeEnforcer
 
 class Person(ExplicitTypeEnforcer):
     def __init__(self, name, age):

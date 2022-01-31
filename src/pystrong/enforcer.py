@@ -1,6 +1,6 @@
 from typing import List, Dict,Tuple,Type, Any
-from exceptions import EnforceredTypeError, AttributeTypeNotSet, BadTypeError, InitError
-from constants import TYPE_ATTR_FORMAT
+from .exceptions import EnforcedTypeError, AttributeTypeNotSet, BadTypeError, InitError
+from .constants import TYPE_ATTR_FORMAT
 
 class InferredTypeEnforcer:
     """
@@ -26,7 +26,7 @@ class InferredTypeEnforcer:
             raise AttributeTypeNotSet(f"No type for attr '{key}' set. This is most likely due to not calling super in the derived class constructor.")
         
         if type(value) is not getattr(self, TYPE_ATTR_FORMAT.format(key)):
-            raise EnforceredTypeError(f"Cant not set type: {type(value)} for attribute '{key}'")
+            raise EnforcedTypeError(f"Cant not set type: {type(value)} for attribute '{key}'")
         super().__setattr__(key, value)
         
 
@@ -53,5 +53,5 @@ class ExplicitTypeEnforcer:
             raise AttributeTypeNotSet(f"No type for attr '{key}' set. This is most likely due to not calling super in the derived class constructor.")
         
         if type(value) is not getattr(self, f"___{key}_type"):
-            raise EnforceredTypeError(f"Cant not assign type: {type(value)} to attribute '{key}'. Must be of type: {getattr(self, f'___{key}_type')}")
+            raise EnforcedTypeError(f"Cant not assign type: {type(value)} to attribute '{key}'. Must be of type: {getattr(self, f'___{key}_type')}")
         super().__setattr__(key, value)
