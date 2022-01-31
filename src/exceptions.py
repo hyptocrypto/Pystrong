@@ -4,7 +4,7 @@ class InitError(Exception):
 class BadTypeError(Exception):
     pass 
 
-class EnforceredTypeError(Exception):
+class EnforcedTypeError(Exception):
     pass
 
 class AttributeTypeNotSet(Exception):
