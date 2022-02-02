@@ -16,3 +16,7 @@ class AttributeTypeNotSet(Exception):
 
 class EnforcedReturnTypeError(Exception):
     pass
+
+
+class EnforcedArgTypeError(Exception):
+    pass

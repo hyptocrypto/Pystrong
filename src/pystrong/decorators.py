@@ -1,4 +1,4 @@
-from .exceptions import EnforcedReturnTypeError
+from .exceptions import EnforcedReturnTypeError, EnforcedArgTypeError
 
 
 def check_return_type(ret_type):
@@ -15,4 +15,18 @@ def check_return_type(ret_type):
 
         return inner
 
+    return wrapper
+
+
+def check_arg_type(*type_args):
+    for _type in type_args:
+        if type(_type) is not type:
+            raise EnforcedArgTypeError("Check argument type argument must be a valid python type.")
+    def wrapper(func):
+        def inner(*args):
+            for _type, arg in zip(type_args, args):
+                if type(arg) is not _type:
+                    raise EnforcedArgTypeError(f"Argument {arg} must be of type {_type}")
+            return func(*args)
+        return inner
     return wrapper
