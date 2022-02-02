@@ -4,9 +4,9 @@
 Use the ExplicitTypeEnforcer class as a base class and the types you set for the attributes in your derived classes will be enforced throughout the life of the object.
 
 ```python
-from pystrong.enforcer import ExplicitTypeEnforcer
+from pystrong import TypeEnforcer
 
-class Person(ExplicitTypeEnforcer):
+class Person(TypeEnforcer):
     def __init__(self, name, age):
         super().__init__(name=str, age=int)
         self.name = name
@@ -15,7 +15,7 @@ class Person(ExplicitTypeEnforcer):
 p = Person('Jake', 32)
 p.name = 55
 
-EnforcedTypeError: Cant not set type: <class 'int'> for attribute 'name'
+EnforcedTypeError: Cant not assign type: <class 'int'> to attribute 'name'. Must be of type: <class 'str'>
 ```
 EnforcedTypeError is thrown because the value of the name attribute on a Person object must always be a string.
 
