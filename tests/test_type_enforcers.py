@@ -15,6 +15,15 @@ class TypedPerson(TypeEnforcer):
         self.height = height
         self.books = books
         
+class BadInitTypedPerson(TypeEnforcer):
+    def __init__(self, name, age, height, books):
+        super().__init__(name="Test", age=4, height=[3,3,4], books=22)
+        self.name = name
+        self.age = age
+        self.height = height
+        self.books = books
+    
+    
 class InferredPerson(InferredTypeEnforcer):
     def __init__(self, name, age, height, books):
         self.name = name
@@ -22,15 +31,10 @@ class InferredPerson(InferredTypeEnforcer):
         self.height = height
         self.books = books
 
+
 def test_init_typed_person():
+    # Arguments for type must be a valid python type.
     with pytest.raises(BadTypeError):
-        class BadInitTypedPerson(TypedPerson):
-            def __init__(self, name, age, height, books):
-                super().__init__(name="Test", age=int, height=float, books=list)
-                self.name = name
-                self.age = age
-                self.height = height
-                self.books = books
         p = BadInitTypedPerson(**clean_data)
     
 def test_clean_typed_enforcer():
@@ -46,6 +50,7 @@ def test_dirty_typed_person():
     # The dirty data should throw an EnforcedTypeError when tyrhing to instantiate a instance with improper types.
     with pytest.raises(EnforcedTypeError):
         TypedPerson(**dirty_data)
+        
         
         
 def test_inferred_person():

@@ -15,7 +15,7 @@ class Person(TypeEnforcer):
 p = Person('Jake', 32)
 p.name = 55
 
-EnforcedTypeError: Cant not assign type: <class 'int'> to attribute 'name'. Must be of type: <class 'str'>
+EnforcedTypeError: Can not assign type: <class 'int'> to attribute 'name'. Must be of type: <class 'str'>
 ```
 EnforcedTypeError is thrown because the value of the name attribute on a Person object must always be a string.
 

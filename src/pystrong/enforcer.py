@@ -1,7 +1,7 @@
 from typing import Any
 
 from .constants import TYPE_ATTR_FORMAT
-from .exceptions import AttributeTypeNotSet, BadTypeError, EnforcedTypeError
+from .exceptions import AttributeTypeNotSet, BadTypeError, EnforcedTypeError, InitError
 
 
 class TypeEnforcer:
@@ -16,10 +16,11 @@ class TypeEnforcer:
                 self.age = age
     """
 
-    def __init__(self, **kwargs):
-        breakpoint()
+    def __init__(self, *args, **kwargs):
+        if args and not kwargs:
+            raise InitError("Arguments must be based as kwargs, i.e key value pairs.")
         for attr_name, _type in kwargs.items():
-            if not isinstance(type(_type), type):
+            if type(_type) is not type:
                 raise BadTypeError(
                     "Key word arguments must be in (attr_name, type) format. Ensure 'type' is a valid python type."
                 )
@@ -37,6 +38,9 @@ class TypeEnforcer:
             )
         super().__setattr__(key, value)
 
+    def __delattr__(self, key: str):
+        del self.__dict__[TYPE_ATTR_FORMAT.format(key)]
+        super().__delattr__(key)
 
 class InferredTypeEnforcer(object):
     """
