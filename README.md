@@ -24,39 +24,42 @@ EnforcedTypeError is thrown because the value of the name attribute on a Person 
 ### Decorators
 There are also some handy decorators to ensure that a method arguments are the right type, or that the method returns the proper type. Using the <b>check_return_type</b> decorator will throw an error if the method returns an invalid type.
 ```python
-from pystrong import check_return_type, check_arg_type
+from pystrong import check_return_type
 
-@check_return_type(str)
+@check_return_type(str, int)
 def test_success():
-    return "Hello World"
+    return "Hello World", 500
 
-@check_return_type(str)
+@check_return_type(str, int)
 def test_fail():
-    return 500
+    return 500, {"test": "error"}
 
 test_success()
-"Hello World"
+("Hello World", 500)
 
 test_fail()
-EnforcedReturnTypeError: Function 'test_fail' returned type <class 'int'>. Expected return type is <class 'str'>.
+EnforcedReturnTypeError: Function 'test_fail' returned '500' of type '<class 'int'>'. Expected return type is '<class 'str'>'.
 ```
 The <b>check_arg_type</b> decorator can be used to enforce that arguments to the function are of the proper type.
 ```python
 from pystrong import check_arg_type
 
-@check_arg_type(int)
-def add_10(num):
+@check_arg_type(int, str)
+def add_10(num, string):
+    print(string)
     return num+10
 
-@check_arg_type(int)
-def error():
+@check_arg_type(int, str)
+def error(num, string):
+    print(string)
     return "error"
 
-add_10(5)
+add_10(5, "Hello World")
+Hello World
 15
 
-add_10("hello")
-EnforcedArgTypeError: Argument 'hello' must be of type <class 'int'>
+add_10("throw", "error")
+EnforcedArgTypeError: Argument 'throw' must be of type <class 'int'>
 ```
 
 

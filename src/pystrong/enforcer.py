@@ -42,6 +42,7 @@ class TypeEnforcer:
         del self.__dict__[TYPE_ATTR_FORMAT.format(key)]
         super().__delattr__(key)
 
+
 class InferredTypeEnforcer(object):
     """
     This class is to be used as a base class to derive a type enforced child class.
