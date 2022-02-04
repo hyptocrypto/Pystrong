@@ -1,3 +1,7 @@
+class DataFormatCheckError(Exception):
+    pass
+
+
 class InitError(Exception):
     pass
 
