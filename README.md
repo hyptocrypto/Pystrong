@@ -22,15 +22,15 @@ EnforcedTypeError: Can not assign type: <class 'int'> to attribute 'name'. Must 
 EnforcedTypeError is thrown because the value of the name attribute on a Person object must always be a string.
  
 ### Decorators
-There are also some handy decorators to ensure that a method arguments are the right type, or that the method returns the proper type. Using the <b>check_return_type</b> decorator will throw an error if the method returns an invalid type.
+There are also some handy decorators to ensure that a method arguments are the right type, or that the method returns the proper type. Using the <b>check_return_types</b> decorator will throw an error if the method returns an invalid type.
 ```python
-from pystrong import check_return_type
+from pystrong import check_return_types
 
-@check_return_type(str, int)
+@check_return_types(str, int)
 def test_success():
     return "Hello World", 500
 
-@check_return_type(str, int)
+@check_return_types(str, int)
 def test_fail():
     return 500, {"test": "error"}
 

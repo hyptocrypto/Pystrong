@@ -22,19 +22,22 @@ class TypeEnforcer:
         for attr_name, _type in kwargs.items():
             if type(_type) is not type:
                 raise BadTypeError(
-                    "Key word arguments must be in (attr_name, type) format. Ensure 'type' is a valid python type."
+                    "Key word arguments must be in (attr_name, type) format. Ensure"
+                    " 'type' is a valid python type."
                 )
             self.__dict__.update({TYPE_ATTR_FORMAT.format(attr_name): _type})
 
     def __setattr__(self, key: str, value: Any) -> None:
         if not self.__dict__.get(TYPE_ATTR_FORMAT.format(key)):
             raise AttributeTypeNotSet(
-                f"No type for attr '{key}' set. This is most likely due to not calling super in the derived class constructor."
+                f"No type for attr '{key}' set. This is most likely due to not calling"
+                " super in the derived class constructor."
             )
 
         if type(value) is not getattr(self, f"___{key}_type"):
             raise EnforcedTypeError(
-                f"Cant not assign type: {type(value)} to attribute '{key}'. Must be of type: {getattr(self, f'___{key}_type')}"
+                f"Cant not assign type: {type(value)} to attribute '{key}'. Must be of"
+                f" type: {getattr(self, f'___{key}_type')}"
             )
         super().__setattr__(key, value)
 
