@@ -1,6 +1,7 @@
 from typing import Any
+import re
 
-from .constants import TYPE_ATTR_FORMAT
+from .constants import TYPE_ATTR_FORMAT, TYPE_ATTR_FORMAT_MATCH
 from .exceptions import AttributeTypeNotSet, BadTypeError, EnforcedTypeError, InitError
 
 
@@ -45,6 +46,26 @@ class TypeEnforcer:
         del self.__dict__[TYPE_ATTR_FORMAT.format(key)]
         super().__delattr__(key)
 
+    def __repr__(self):
+        """Represent the class instance with its declared types"""
+        if isinstance(self, TypeEnforcer):
+            values = tuple(
+                [
+                    f"{i}:{getattr(self, TYPE_ATTR_FORMAT.format(i)).__name__} = {k}"
+                    for (i, k) in self.to_dict().items()
+                ]
+            )
+            return f"{self.__class__.__name__}{values}"
+        return super().__repr__(self)
+
+    def to_dict(self):
+        """Return a dict of object values ignoring the private type values"""
+        return {
+            key: value
+            for (key, value) in self.__dict__.items()
+            if not bool(re.match(TYPE_ATTR_FORMAT_MATCH, key))
+        }
+
 
 class InferredTypeEnforcer(object):
     """
@@ -66,3 +87,23 @@ class InferredTypeEnforcer(object):
     def __delattr__(self, key: str):
         del self.__dict__[TYPE_ATTR_FORMAT.format(key)]
         super().__delattr__(key)
+
+    def __repr__(self):
+        """Represent the class instance with its declared types"""
+        if isinstance(self, InferredTypeEnforcer):
+            values = tuple(
+                [
+                    f"{i}:{getattr(self, TYPE_ATTR_FORMAT.format(i)).__name__} = {k}"
+                    for (i, k) in self.to_dict().items()
+                ]
+            )
+            return f"{self.__class__.__name__}{values}"
+        return super().__repr__()
+
+    def to_dict(self):
+        """Return a dict of object values ignoring the private type values"""
+        return {
+            key: value
+            for (key, value) in self.__dict__.items()
+            if not bool(re.match(TYPE_ATTR_FORMAT_MATCH, key))
+        }
