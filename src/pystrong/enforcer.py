@@ -48,15 +48,19 @@ class TypeEnforcer:
 
     def __repr__(self):
         """Represent the class instance with its declared types"""
-        if isinstance(self, TypeEnforcer):
-            values = tuple(
-                [
-                    f"{i}:{getattr(self, TYPE_ATTR_FORMAT.format(i)).__name__} = {k}"
-                    for (i, k) in self.to_dict().items()
-                ]
+        if self.__class__.__name__ != "TypeEnforcer":
+            return (
+                self.__class__.__name__
+                + "("
+                + ", ".join(
+                    [
+                        f"{i}:{getattr(self, TYPE_ATTR_FORMAT.format(i)).__name__}={k!r}"
+                        for (i, k) in self.to_dict().items()
+                    ]
+                )
+                + ")"
             )
-            return f"{self.__class__.__name__}{values}"
-        return super().__repr__(self)
+        return super().__repr__()
 
     def to_dict(self):
         """Return a dict of object values ignoring the private type values"""
@@ -90,14 +94,18 @@ class InferredTypeEnforcer(object):
 
     def __repr__(self):
         """Represent the class instance with its declared types"""
-        if isinstance(self, InferredTypeEnforcer):
-            values = tuple(
-                [
-                    f"{i}:{getattr(self, TYPE_ATTR_FORMAT.format(i)).__name__} = {k}"
-                    for (i, k) in self.to_dict().items()
-                ]
+        if self.__class__.__name__ != "InferredTypeEnforcer":
+            return (
+                self.__class__.__name__
+                + "("
+                + ", ".join(
+                    [
+                        f"{i}:{getattr(self, TYPE_ATTR_FORMAT.format(i)).__name__}={k!r}"
+                        for (i, k) in self.to_dict().items()
+                    ]
+                )
+                + ")"
             )
-            return f"{self.__class__.__name__}{values}"
         return super().__repr__()
 
     def to_dict(self):
