@@ -1,5 +1,7 @@
 # Pystrong. Type enforcement for python objects
 
+[![Tests](https://github.com/hyptocrypto/Pystrong/actions/workflows/tests.yml/badge.svg)](https://github.com/hyptocrypto/Pystrong/actions/workflows/tests.yml)
+
 ## Abstract
 This package is inspired by the Python dataclasses. While dataclasses are amazing, I never really liked the way they go about type checking/enforcement. This package offers some clean and simple tools to help with type enforcement in Python.
 
