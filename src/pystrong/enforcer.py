@@ -1,6 +1,7 @@
 from typing import Any
+import re
 
-from .constants import TYPE_ATTR_FORMAT
+from .constants import TYPE_ATTR_FORMAT, TYPE_ATTR_FORMAT_MATCH
 from .exceptions import AttributeTypeNotSet, BadTypeError, EnforcedTypeError, InitError
 
 
@@ -45,6 +46,30 @@ class TypeEnforcer:
         del self.__dict__[TYPE_ATTR_FORMAT.format(key)]
         super().__delattr__(key)
 
+    def __repr__(self):
+        """Represent the class instance with its declared types"""
+        if self.__class__.__name__ != "TypeEnforcer":
+            return (
+                self.__class__.__name__
+                + "("
+                + ", ".join(
+                    [
+                        f"{i}:{getattr(self, TYPE_ATTR_FORMAT.format(i)).__name__}={k!r}"
+                        for (i, k) in self.to_dict().items()
+                    ]
+                )
+                + ")"
+            )
+        return super().__repr__()
+
+    def to_dict(self):
+        """Return a dict of object values ignoring the private type values"""
+        return {
+            key: value
+            for (key, value) in self.__dict__.items()
+            if not bool(re.match(TYPE_ATTR_FORMAT_MATCH, key))
+        }
+
 
 class InferredTypeEnforcer(object):
     """
@@ -59,10 +84,35 @@ class InferredTypeEnforcer(object):
 
         if type(value) is not getattr(self, TYPE_ATTR_FORMAT.format(key)):
             raise EnforcedTypeError(
-                f"Cant not set type: {type(value)} for attribute '{key}'"
+                f"Cant not assign type: {type(value)} to attribute '{key}'. Must be of"
+                f" type: {getattr(self, f'___{key}_type')}"
             )
         super().__setattr__(key, value)
 
     def __delattr__(self, key: str):
         del self.__dict__[TYPE_ATTR_FORMAT.format(key)]
         super().__delattr__(key)
+
+    def __repr__(self):
+        """Represent the class instance with its declared types"""
+        if self.__class__.__name__ != "InferredTypeEnforcer":
+            return (
+                self.__class__.__name__
+                + "("
+                + ", ".join(
+                    [
+                        f"{i}:{getattr(self, TYPE_ATTR_FORMAT.format(i)).__name__}={k!r}"
+                        for (i, k) in self.to_dict().items()
+                    ]
+                )
+                + ")"
+            )
+        return super().__repr__()
+
+    def to_dict(self):
+        """Return a dict of object values ignoring the private type values"""
+        return {
+            key: value
+            for (key, value) in self.__dict__.items()
+            if not bool(re.match(TYPE_ATTR_FORMAT_MATCH, key))
+        }
