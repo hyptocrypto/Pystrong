@@ -84,7 +84,8 @@ class InferredTypeEnforcer(object):
 
         if type(value) is not getattr(self, TYPE_ATTR_FORMAT.format(key)):
             raise EnforcedTypeError(
-                f"Cant not set type: {type(value)} for attribute '{key}'"
+                f"Cant not assign type: {type(value)} to attribute '{key}'. Must be of"
+                f" type: {getattr(self, f'___{key}_type')}"
             )
         super().__setattr__(key, value)
 
