@@ -3,7 +3,7 @@
 [![Tests](https://github.com/hyptocrypto/Pystrong/actions/workflows/tests.yml/badge.svg)](https://github.com/hyptocrypto/Pystrong/actions/workflows/tests.yml)
 
 ## Abstract
-This experimental package is just for fun and is inspired by the Pydantic's BaseModel. While the Pydantic package is amazing, I never really liked the way it goes about type checking/enforcement. This package offers some clean and simple tools to help with type enforcement in Python.
+This experimental package is just for fun and is inspired [Pydantic](https://github.com/pydantic/pydantic). While the Pydantic package is amazing, I never really liked the way it goes about type checking/enforcement. This package offers some clean and simple tools to help with type enforcement in Python.
 
 ## Usage
 
